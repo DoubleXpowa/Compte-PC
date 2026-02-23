@@ -19,7 +19,7 @@ function createWindow() {
     icon: path.join(__dirname, 'icons', 'icon.ico'),
     title: 'Mon Compte',
     backgroundColor: '#0A0F1C',
-    show: false,
+    show: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -36,9 +36,8 @@ function createWindow() {
   mainWindow.loadFile('src/index.html');
 
   mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
     mainWindow.focus();
-  });
+});
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
