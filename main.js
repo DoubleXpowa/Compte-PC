@@ -5,7 +5,7 @@ const path = require('path');
 const gotLock = app.requestSingleInstanceLock();
 if (!gotLock) { 
   app.quit();
-  process.exit(0); // ← force la sortie du processus
+  process.exit(0);
 }
 
 let mainWindow = null;
@@ -46,11 +46,7 @@ function createWindow() {
   });
 
   mainWindow.on('closed', () => {
-  mainWindow = null;
-  if (process.platform !== 'darwin') {
-    app.quit();
-    process.exit(0); // ← force la sortie complète
-  }
+    mainWindow = null;
   });
 }
 
@@ -86,13 +82,16 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
+  app.releaseSingleInstanceLock();
   app.quit();
-  process.exit(0); // ← force la sortie complète
+  setTimeout(() => process.exit(0), 500);
 });
 
 app.on('second-instance', () => {
   if (mainWindow) {
     if (mainWindow.isMinimized()) mainWindow.restore();
     mainWindow.focus();
+  } else {
+    createWindow();
   }
 });
