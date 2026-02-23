@@ -1,7 +1,7 @@
 {
   "name": "mon-compte",
   "productName": "Mon Compte",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Suivi de compte bancaire personnel",
   "main": "main.js",
   "scripts": {
