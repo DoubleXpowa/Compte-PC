@@ -14,11 +14,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm ci
-      - run: npm run build:win
+      - name: Installer les dépendances
+        run: npm install
+
+      - name: Compiler le .exe
+        run: npm run build:win
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: softprops/action-gh-release@v2
+
+      - name: Publier dans la Release
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
