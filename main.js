@@ -83,8 +83,7 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', () => {
   app.releaseSingleInstanceLock();
-  app.quit();
-  setTimeout(() => process.exit(0), 500);
+  app.exit(0); // ← utilise app.exit() au lieu de app.quit()
 });
 
 app.on('second-instance', () => {
