@@ -3,7 +3,10 @@ const { autoUpdater } = require('electron-updater');
 const path = require('path');
 
 const gotLock = app.requestSingleInstanceLock();
-if (!gotLock) { app.quit(); }
+if (!gotLock) { 
+  app.quit();
+  process.exit(0); // ← force la sortie du processus
+}
 
 let mainWindow = null;
 
@@ -43,8 +46,11 @@ function createWindow() {
   });
 
   mainWindow.on('closed', () => {
-    mainWindow = null;
-    if (process.platform !== 'darwin') app.quit(); // ← fix
+  mainWindow = null;
+  if (process.platform !== 'darwin') {
+    app.quit();
+    process.exit(0); // ← force la sortie complète
+  }
   });
 }
 
@@ -80,7 +86,8 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  app.quit(); // ← force toujours la fermeture complète
+  app.quit();
+  process.exit(0); // ← force la sortie complète
 });
 
 app.on('second-instance', () => {
